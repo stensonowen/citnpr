@@ -1,15 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import cat from './categories.js';
-
-function Label(props, loud=false) {
-  return (
-    <td className={props.className}>
-      { props.name }
-    </td>
-  );
-}
+//import cat from './categories.js';
 
 /* Grid.Row * Grid.Column
  *  using primes because I'm noided about this type system
@@ -21,24 +13,31 @@ function Label(props, loud=false) {
  *      +----+----+
  */
 const Grid = {
-  //RowMult: 13,
   Row    : { TOP  : 3, BOTTOM : 5 },
   Column : { LEFT : 7, RIGHT  : 11},
   Cell   : { NE : 33, NW : 21, SE : 55, SW : 35, },
   Names  : { NE : 'NE', NW : 'NW', SE : 'SE', SW : 'SW' },
-  Index  : { 33 : 'NE', 21 : 'NW', 55 : 'SE', 35 : 'SW' },
 };
+
+function Label(props) {
+  return (
+    <td>
+      <span className={props.className}>
+        { props.name }
+      </span>
+    </td>
+  );
+}
 
 class Board extends React.Component {
 
   constructor(props) {
     super(props);
 
-    const C = Grid.Cell;
-    const [NE, NW, SW, SE] = [C.NE, C.NW, C.SW, C.SE];
+    this.num_stages = 7;
     this.state = {
       row_active     : Grid.Row.TOP,
-      side_highlight : null, // or Grid.Column
+      side_highlight : null,    // Grid.Column
       stage          : 0,
       labels : {
         NE : "Cons",
@@ -49,61 +48,51 @@ class Board extends React.Component {
     };
   }
 
-  renderLabel(cell) { // int
-    const label = this.state.labels[cell];
-
-    // lol
-    let className = "labelQuiet";
-    if (cell === Grid.Names.NW
-      && this.state.row_active === Grid.Row.TOP
-      && this.state.side_highlight === Grid.Column.LEFT)
-    {
-      className = "labelLoud";
-    }
-    else if (cell === Grid.Names.NE
-      && this.state.row_active === Grid.Row.TOP
-      && this.state.side_highlight === Grid.Column.RIGHT)
-    {
-      className = "labelLoud";
-    }
-    else if (cell === Grid.Names.SE
-      && this.state.row_active === Grid.Row.BOTTOM
-      && this.state.side_highlight === Grid.Column.RIGHT)
-    {
-      className = "labelLoud";
-    }
-    else if (cell === Grid.Names.SW
-      && this.state.row_active === Grid.Row.BOTTOM
-      && this.state.side_highlight === Grid.Column.LEFT)
-    {
-      className = "labelLoud";
-    }
+  renderLabel(cell) { // e.g. 'NW'
+    const is_loud = (cell) => {
+      const idxLoud = this.state.row_active * this.state.side_highlight;
+      return Grid.Cell[cell] === idxLoud;
+    };
 
     return (
       <Label
-        name={label}
-        className={className}
+        name={ this.state.labels[cell] }
+        className={ is_loud(cell) ? "labelLoud" : "labelQuiet" }
       />
     );
   }
 
-  highlightSide(side) { // Grid.Column.*
+  highlightSide(side) { // Grid.Column
     let newstate = this.state;
     newstate.side_highlight = side;
+    if (side != null) { newstate.row_active = (newstate.row_active === 3) ? 5 : 3; } // just for testing
     this.setState(newstate);
   }
 
-  selectLeft() {
-    this.highlightSide(Grid.Column.LEFT);
-  }
-
-  selectRight() {
-    this.highlightSide(Grid.Column.RIGHT);
+  renderButton(column, label) { // Grid.Column
+    const id = "button_" + label;
+    return (
+      <th>
+        <button
+          className="button"
+          id={id}
+          onMouseDown={ () => this.highlightSide(column) }
+          onMouseUp={   () => this.highlightSide(null)   }
+        >
+        Press '{label}'
+        </button>
+      </th>
+    );
   }
 
   render() {
     return (
       <div>
+
+      <div className="stageLabel">
+        Stage { this.state.stage + 1 } of { this.num_stages }
+      </div>
+
       <table className="gameboard">
       <tbody>
 
@@ -117,16 +106,8 @@ class Board extends React.Component {
         </tr>
 
         <tr>
-          <th>
-            <button className="button" id="buttonQ" onClick={ () => this.selectLeft() }>
-              Press 'q'
-            </button>
-          </th>
-          <th>
-            <button className="button" id="buttonP" onClick={ () => this.selectRight() }>
-              Press 'p'
-            </button>
-          </th>
+          { this.renderButton(Grid.Column.LEFT,  "q") }
+          { this.renderButton(Grid.Column.RIGHT, "p") }
         </tr>
 
       </tbody>
@@ -138,23 +119,9 @@ class Board extends React.Component {
   }
 
   reset(cat1, cat2) {
-    //this.state.
+    console.log("lol");
   }
 
-}
-
-function Category(label) {
-  return (
-    <td>
-    </td>
-  )
-}
-
-function renderStage(stage) {
-  return (
-    <div>
-    </div>
-  )
 }
 
 function App() {
@@ -162,15 +129,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <p> Edit <code>src/App.js</code> and save to reload.  </p>
+        <a className="App-link"
+           href="https://reactjs.org"
+           target="_blank"
+           rel="noopener noreferrer" >
           lol Learn React
         </a>
       </header>

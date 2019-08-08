@@ -23,8 +23,8 @@
   color: #61dafb;
 }
 
-.labelLoud  { background-color: green; }
-.labelQuiet { background-color: gray;  }
+.labelLoud  { background-color: yellow; }
+.labelQuiet { background-color: white;  }
 
 .buttonLoud  { background-color: green; }
 .buttonQuiet { background-color: white; } 
