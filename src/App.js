@@ -4,34 +4,12 @@ import './App.css';
 import cat from './categories.js';
 
 function Label(props, loud=false) {
-  const className = loud ? "labelLoud" : "labelQuiet";
   return (
-    <td className={className}>
+    <td className={props.className}>
       { props.name }
     </td>
   );
 }
-
-/*
-class Label extends React.Component {
-  //constructor(name, loud=false) {
-    //this.name = name;
-  constructor(props) {
-    super(props);
-    //this.state = { loud };
-  }
-
-  render(loud2) {
-    //const className = this.state.loud ? "labelLoud" : "labelQuiet";
-    const className = (this.state.loud || loud2) ? "labelLoud" : "labelQuiet";
-    return (
-      <td className={className}>
-      { this.name }
-      </td>
-    )
-  }
-}
-*/
 
 /* Grid.Row * Grid.Column
  *  using primes because I'm noided about this type system
@@ -47,9 +25,8 @@ const Grid = {
   Row    : { TOP  : 3, BOTTOM : 5 },
   Column : { LEFT : 7, RIGHT  : 11},
   Cell   : { NE : 33, NW : 21, SE : 55, SW : 35, },
+  Names  : { NE : 'NE', NW : 'NW', SE : 'SE', SW : 'SW' },
   Index  : { 33 : 'NE', 21 : 'NW', 55 : 'SE', 35 : 'SW' },
-  //findN : function(col, row) { return col*row; },
-  //findC : function(col, row) { return Grid.Cell[Grid.findN(col, row)]; },
 };
 
 class Board extends React.Component {
@@ -57,40 +34,55 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
 
+    const C = Grid.Cell;
+    const [NE, NW, SW, SE] = [C.NE, C.NW, C.SW, C.SE];
     this.state = {
       row_active     : Grid.Row.TOP,
       side_highlight : null, // or Grid.Column
       stage          : 0,
-    };
-
-    this.state = {
       labels : {
-        21 : "Cons",
-        Grid.Cell.NW : "Libs",
-        Grid.Cell.SW : "Punk",
-        Grid.Cell.SE : "Not punk",
+        NE : "Cons",
+        NW : "Libs",
+        SW : "Punk",
+        SE : "Not punk",
       },
     };
-    /*
-    this.state = {
-      labelNE : new Label("Cons"), // q1
-      labelNW : new Label("Libs"), // q2
-      labelSW : new Label("Punk"), // q3
-      labelSE : new Label("Not Punk"), // q4
-    };
-    */
-    //this.labelNE = new Label("Cons"); // q1
-    //this.labelNW = new Label("Libs"); // q2
-    //this.labelSW = new Label("Punk"); // q3
-    //this.labelSE = new Label("Not Punk"); // q4
-    //this.labelNE = "Con";
   }
 
   renderLabel(cell) { // int
     const label = this.state.labels[cell];
+
+    // lol
+    let className = "labelQuiet";
+    if (cell === Grid.Names.NW
+      && this.state.row_active === Grid.Row.TOP
+      && this.state.side_highlight === Grid.Column.LEFT)
+    {
+      className = "labelLoud";
+    }
+    else if (cell === Grid.Names.NE
+      && this.state.row_active === Grid.Row.TOP
+      && this.state.side_highlight === Grid.Column.RIGHT)
+    {
+      className = "labelLoud";
+    }
+    else if (cell === Grid.Names.SE
+      && this.state.row_active === Grid.Row.BOTTOM
+      && this.state.side_highlight === Grid.Column.RIGHT)
+    {
+      className = "labelLoud";
+    }
+    else if (cell === Grid.Names.SW
+      && this.state.row_active === Grid.Row.BOTTOM
+      && this.state.side_highlight === Grid.Column.LEFT)
+    {
+      className = "labelLoud";
+    }
+
     return (
       <Label
         name={label}
+        className={className}
       />
     );
   }
@@ -110,21 +102,18 @@ class Board extends React.Component {
   }
 
   render() {
-    //const highlightNW = (this.state.row_active === Grid.Row.TOP && this.state.side_highlight === Grid.Column.LEFT);
-    //this.labelNE.state.loud = (this.state.row_active === Grid.Row.TOP && this.state.side_highlight === Grid.Column.RIGHT);
-    //this.labelNE.setState( { loud : (this.state.row_active === Grid.Row.TOP && this.state.side_highlight === Grid.Column.RIGHT) });
     return (
       <div>
       <table className="gameboard">
       <tbody>
 
         <tr>
-          { this.renderLabel( Grid.Cell.NW ) }
-          { this.renderLabel( Grid.Cell.NE ) }
+          { this.renderLabel( Grid.Names.NW ) }
+          { this.renderLabel( Grid.Names.NE ) }
         </tr>
         <tr>
-          { this.renderLabel( Grid.Row.BOTTOM, Grid.Column.LEFT ) }
-          { this.renderLabel( Grid.Row.BOTTOM, Grid.Column.RIGHT ) }
+          { this.renderLabel( Grid.Names.SW ) }
+          { this.renderLabel( Grid.Names.SE ) }
         </tr>
 
         <tr>
