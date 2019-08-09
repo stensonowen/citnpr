@@ -23,9 +23,8 @@
   color: #61dafb;
 }
 
-.circled {
-  outline: 1px solid green;
-}
+.circled { outline: 1px solid green; }
+.timer   { text-align: center; color: purple; }
 
 .labelLoud  { background-color: yellow; }
 .labelQuiet { background-color: white;  }
