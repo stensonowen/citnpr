@@ -2,33 +2,14 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import sw from './stopwatch.js';
-//import cat from './categories.js';
 
-/* Grid.Row * Grid.Column
- *  using primes because I'm noided about this type system
- *
- *      +----+----+
- *      | 21 | 33 |
- *      +----+----+
- *      | 35 | 55 |
- *      +----+----+
- */
-const Grid = {
-  Row    : { TOP  : 3, BOTTOM : 5 },
-  Column : { LEFT : 7, RIGHT  : 11},
-  Cell   : { NE : 33, NW : 21, SE : 55, SW : 35, },
-  Names  : { NE : 'NE', NW : 'NW', SE : 'SE', SW : 'SW' },
-};
+import grid from './grid.js';
 
-function Label(props) {
-  return (
-    <td>
-      <span className={props.className}>
-        { props.name }
-      </span>
-    </td>
-  );
-}
+import model from './model.js';
+import view from './view.js';
+import ctrl from './control.js';
+
+const Grid = grid.Grid;
 
 class Board extends React.Component {
 
@@ -76,9 +57,11 @@ class Board extends React.Component {
   }
 
   highlightSide(side) { // Grid.Column
-    let newstate = this.state;
-    newstate.side_highlight = side;
-    this.setState(newstate);
+    //let newstate = this.state;
+    //newstate.side_highlight = side;
+    //this.setState(newstate);
+    this.setState({ side_highlight : side });
+    console.log(this.state);
 
     this.reset_stopwatch();
   }
@@ -153,11 +136,14 @@ class Board extends React.Component {
     const idxLoud = this.state.row_active * this.state.side_highlight;
     const isLoud = Grid.Cell[cell] === idxLoud;
     return (
+      <div> TODO label </div>
+    );
+    /*
       <Label
         name={ this.state.labels[cell] }
         className={ isLoud ? "labelLoud" : "labelQuiet" }
       />
-    );
+    */
   }
 
   renderButton(column, label) { // Grid.Column
@@ -221,21 +207,33 @@ class Board extends React.Component {
 
 }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p> Edit <code>src/App.js</code> and save to reload.  </p>
-        <a className="App-link"
-           href="https://reactjs.org"
-           target="_blank"
-           rel="noopener noreferrer" >
-          lol Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // CONTROLLER needs a handle to the MODEL (for actions)
+    // MODEL needs a handle to the VIEW (to set data)
+    // VIEW  needs a handle to the CONTROLLER (callbacks)
+
+    this.m = new model.Model();
+    this.v = new view.View(props, this.m);
+    this.c = new ctrl.Controller(this.m, this.v);
+
+    this.m.v = this.v;
+    this.v.c = this.c;
+    this.c.m = this.m;
+  }
+
+  //render = () => this.v.render();
+  render() {
+    return (
+      <div>
+      todo
+      </div>
+    );
+  }
+  
 }
+
 
 export default { App, Board };
