@@ -44,10 +44,10 @@ class Board extends React.Component {
       side_highlight : null,    // Grid.Column
       stage          : 0,
       labels : {
-        NE : "Cons",
-        NW : "Libs",
-        SW : "Punk",
-        SE : "Not punk",
+        NE : "Cccc",
+        NW : "Llll",
+        SW : "Pppp",
+        SE : "Nnn Pppp",
       },
       stopwatch : {
         last_update : Date.now(),
