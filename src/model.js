@@ -1,4 +1,5 @@
 
+/*
 import grid from './grid.js';
 
 const Grid = grid.Grid;
@@ -32,11 +33,7 @@ class Model {
   }
 
 
-  /*
-  setState(d) {
-    this.
-  }
-  */
 }
 
 export default { Model };
+*/

@@ -1,95 +1,78 @@
 
 import React from 'react';
 
-//import model from './model.js'; // don't need ?
-//import ctrl from './control.js';
 import grid from './grid.js';
 const Grid = grid.Grid;
 
+
+function Button(props) {
+  return (
+    <th>
+    <button className="button"
+      onMouseDown={props.onDown} onMouseUp={props.onUp}
+    >
+    Press '{props.key_}'
+    </button>
+    </th>
+  );
+}
+
+function Label(props) {
+  const style = props.loud ? "labelLoud" : "labelQuiet";
+  return (
+    <td>
+    <span className={ style }>
+    { props.name }
+    </span>
+    </td>
+  );
+}
+
 class View {
-  constructor(m, app) {
-    // consts
-    this.num_stages = 7;
-    this.app = app;
-
-    this.state = {
-      // data
-      model          : m,
-      // display
-      side_highlight : null,
-    }
+  constructor(app, num_stages = 7) {
+    this.num_stages = num_stages;
+    this.app = app; // model + controller
   }
 
-  update(dict) {
-    // console.log("-update- ", dict);
-    this.app.setState(dict);
-    console.log("Just called setState w/ dict = ", dict, ", state = ", this.app.state);
-  }
-
-  highlight_side(side_highlight) {
-    // console.log("HIGHLIGHT - ", side_highlight);
-    this.update({ side_highlight });
-  }
-
-  clear_highlight() {
-    this.highlight_side(null);
-  }
-
-  repaint(model) {
-    this.update({ model });
-  }
-
-  renderLabel(cell) { // 'NW'
-    const label = this.state.model.labels[cell];
-    const [row,col] = [this.state.model.row_active, this.state.side_highlight];
-    const loud = Grid.Cell[cell] === row * col;
-    const style = loud ? "labelLoud" : "labelQuiet";
-    // console.log(cell, row, col, loud);
-    return (
-      <td>
-      <span className={ style }>
-      { label }
-      </span>
-      </td>
-    );
+  clear_selection() {
+    console.log("up");
+    this.app.setState({ display : { side_highlight : null } });
   }
 
   renderButton(column) { // LEFT
-    const label = column === Grid.Column.LEFT ? 'q' : 'p';
-    // console.log("render button - column = ", column);
+    const key = column === Grid.Column.LEFT ? 'q' : 'p';
+    const onUp = this.clear_selection.bind(this);
+    const onDown = () => this.app.choose(column);
     return (
-      <th>
-      <button className="button" id={label}
-        onMouseUp={   () => this.c.on_select( column )  }
-        onMouseDown={ () => this.c.on_deselect() }
-      >
-      Press '{ label }'
-      </button>
-      </th>
+      <Button key_={key} onDown={onDown} onUp={onUp} />
     );
   }
 
-  render() {
+  render(board, display) {
+    const lc = board.row_active * display.side_highlight;
+    const G = Grid.Cell;
+    const L = board.labels;
+
     return (
       <div>
 
       <div className="stageLabel">
-      Stage { this.state.model.stage + 1 } of { this.num_stages }
+      Stage { board.stage + 1 } of { this.num_stages }
       </div>
 
       <table className="gameboard">
       <tbody>
       <tr>
-      { this.renderLabel( Grid.Names.NW ) }
-      { this.renderLabel( Grid.Names.NE ) }
+      <Label name={L.NW} loud={G.NW===lc} />
+      <Label name={L.NE} loud={G.NE===lc} />
       </tr>
       <tr>
-      { this.renderLabel( Grid.Names.SW ) }
-      { this.renderLabel( Grid.Names.SE ) }
+      <Label name={L.SW} loud={G.SW===lc} />
+      <Label name={L.SE} loud={G.SE===lc} />
       </tr>
       <tr>
-      { this.renderButton( Grid.Column.LEFT ) }
-      { this.renderButton( Grid.Column.RIGHT) }
+      { this.renderButton(Grid.Column.LEFT) }
+      { this.renderButton(Grid.Column.RIGHT) }
       </tr>
       </tbody>
       </table>
@@ -101,18 +84,8 @@ class View {
       </div>
     );
   }
-
 }
 
-//function Label(props) {
-//  return (
-//    <td>
-//      <span className={props.className}>
-//        { props.name }
-//      </span>
-//    </td>
-//  );
-//}
 
 export default { View };
 
