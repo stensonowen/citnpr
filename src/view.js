@@ -77,6 +77,10 @@ class View {
       </tbody>
       </table>
 
+      <div className="timer">
+      { display.time_elapsed }
+      </div>
+
       <div className="prompt" id="prompt">
       p r o m t p
       </div>
