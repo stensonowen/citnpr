@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
-import sw from './stopwatch.js';
+//import sw from './stopwatch.js';
 
 import grid from './grid.js';
 
@@ -68,7 +68,8 @@ class Board extends React.Component {
 
   selectSide(side) { // Grid.Column
     this.highlightSide(side);
-    this.state.row_active = (this.state.row_active === 3) ? 5 : 3;
+    const row_active = (this.state.row_active === 3) ? 5 : 3;
+    this.setState({ row_active });
     console.log(" select " + side );
     this.reset_stopwatch();
     //this.start_stopwatch();
@@ -133,8 +134,8 @@ class Board extends React.Component {
   }
 
   renderLabel(cell) { // e.g. 'NW'
-    const idxLoud = this.state.row_active * this.state.side_highlight;
-    const isLoud = Grid.Cell[cell] === idxLoud;
+    //const idxLoud = this.state.row_active * this.state.side_highlight;
+    //const isLoud = Grid.Cell[cell] === idxLoud;
     return (
       <div> TODO label </div>
     );
@@ -165,7 +166,7 @@ class Board extends React.Component {
   render() {
     const circleRow = (row) => this.state.row_active === row;
     const circledStyle = (row) => circleRow(row) ? "circled" : "";
-    const time = "00:00";
+    //const time = "00:00";
     return (
       <div>
 
@@ -216,7 +217,7 @@ class App extends React.Component {
     // VIEW  needs a handle to the CONTROLLER (callbacks)
 
     this.m = new model.Model();
-    this.v = new view.View(props, this.m);
+    this.v = new view.View(this.m, this);
     this.c = new ctrl.Controller(this.m, this.v);
 
     this.m.v = this.v;
@@ -226,11 +227,7 @@ class App extends React.Component {
 
   //render = () => this.v.render();
   render() {
-    return (
-      <div>
-      todo
-      </div>
-    );
+    return this.v.render();
   }
   
 }

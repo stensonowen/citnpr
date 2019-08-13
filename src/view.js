@@ -1,15 +1,16 @@
 
 import React from 'react';
 
-import model from './model.js'; // don't need ?
-import ctrl from './control.js';
+//import model from './model.js'; // don't need ?
+//import ctrl from './control.js';
 import grid from './grid.js';
 const Grid = grid.Grid;
 
 class View {
-  constructor(m) {
+  constructor(m, app) {
     // consts
     this.num_stages = 7;
+    this.app = app;
 
     this.state = {
       // data
@@ -19,8 +20,15 @@ class View {
     }
   }
 
+  update(dict) {
+    // console.log("-update- ", dict);
+    this.app.setState(dict);
+    console.log("Just called setState w/ dict = ", dict, ", state = ", this.app.state);
+  }
+
   highlight_side(side_highlight) {
-    this.setState({ side_highlight });
+    // console.log("HIGHLIGHT - ", side_highlight);
+    this.update({ side_highlight });
   }
 
   clear_highlight() {
@@ -28,17 +36,15 @@ class View {
   }
 
   repaint(model) {
-    this.setState({ model });
-  }
-
-  render() {
+    this.update({ model });
   }
 
   renderLabel(cell) { // 'NW'
     const label = this.state.model.labels[cell];
-    const [row,col] = [this.state.model.row_active,this.state.side_highlight];
+    const [row,col] = [this.state.model.row_active, this.state.side_highlight];
     const loud = Grid.Cell[cell] === row * col;
     const style = loud ? "labelLoud" : "labelQuiet";
+    // console.log(cell, row, col, loud);
     return (
       <td>
       <span className={ style }>
@@ -50,6 +56,7 @@ class View {
 
   renderButton(column) { // LEFT
     const label = column === Grid.Column.LEFT ? 'q' : 'p';
+    // console.log("render button - column = ", column);
     return (
       <th>
       <button className="button" id={label}

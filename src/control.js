@@ -1,6 +1,6 @@
 
-import model from './model.js';
-import grid from './grid.js';
+//import model from './model.js';
+//import grid from './grid.js';
 
 class Controller {
   constructor(m, v) {
@@ -9,7 +9,8 @@ class Controller {
   }
 
   on_select(side) { // nullable
-    this.m.select(side);
+    console.log("on select - side = ", side);
+    this.m.select_side(side);
   }
 
   on_deselect() {
