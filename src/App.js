@@ -4,30 +4,18 @@ import './App.css';
 
 import sw from './stopwatch.js';
 import view from './view.js';
+import ctrl from './control.js';
 import grid from './grid.js';
+import model from './model.js';
 
 const Grid = grid.Grid;
-
-
-function register_keystrokes(board) {
-  const C = Grid.Column;
-  window.addEventListener('keydown', function(e) {
-    if (e.metaKey || e.altKey || e.ctrlKey || e.repeat) { return; }
-    else if (e.code === "KeyQ") { board.choose(C.LEFT); }
-    else if (e.code === "KeyP") { board.choose(C.RIGHT); }
-  });
-  const clear = (_) => board.view.clear_selection();
-  window.addEventListener('mouseup', clear);
-  window.addEventListener('keyup',   clear);
-}
-
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.view = new view.View(this);
-    register_keystrokes(this);
+    ctrl.register_keystrokes(this);
 
     // constants
     this.num_stages = 7;
@@ -35,8 +23,7 @@ class App extends React.Component {
 
 
     this.state = {
-
-      // controlled by the Model
+      // model
       board : {
         row_active : Grid.Row.TOP,
         stage      : 0,
@@ -47,32 +34,36 @@ class App extends React.Component {
           SE : "Nnn Pppp",
         },
       },
-
-      // controlled by the View
+      // view
       display : {
         side_highlight : null,
-        time_elapsed   : null,
+        time_elapsed   : "none",
       },
-
     };
 
   }
 
-  choose(side_highlight) { // LEFT
-    console.log("chose ", side_highlight);
-    this.setState({ display : { side_highlight }, });
-    if (side_highlight === Grid.Column.LEFT) {
-      console.log("sw start");
+  choose(side) { // Grid.Column.LEFT
+    let display = this.state.display;
+    display.side_highlight = side;
+    this.setState({ display });
+
+    if (side === Grid.Column.LEFT) {
       this.stopwatch.start();
-    } else if (side_highlight === Grid.Column.RIGHT) {
-      console.log("sw stop");
-      console.log(this.state.display.time_elapsed);
+    } else if (side === Grid.Column.RIGHT) {
       this.stopwatch.reset();
     }
   }
 
-  set_time(time_elapsed) {
-    this.setState({ display : { time_elapsed } });
+  set_time(elapsed) {
+    let display = this.state.display;
+    display.time_elapsed = elapsed || "none";
+    this.setState({ display });
+  }
+
+  set_labels(labels) {
+    // 'NE' : "text", ...
+    this.setState({ board : { labels } });
   }
 
   render() {

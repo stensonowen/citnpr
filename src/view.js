@@ -35,8 +35,9 @@ class View {
   }
 
   clear_selection() {
-    console.log("up");
-    this.app.setState({ display : { side_highlight : null } });
+    let display = this.app.state.display;
+    display.side_highlight = null;
+    this.app.setState({ display });
   }
 
   renderButton(column) { // LEFT

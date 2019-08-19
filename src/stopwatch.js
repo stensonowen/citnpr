@@ -11,7 +11,7 @@ class Stopwatch {
     this.elapsed_ms = 0;
     if (this.timer) {
       clearInterval(this.timer);
-      this.app.set_time(null);
+      this.app.set_time("none");
     }
     this.timer = null; // setInterval
   }
@@ -31,8 +31,12 @@ class Stopwatch {
     this.app.set_time(this.format_elapsed());
   }
 
+  elapsed() {
+    return this.elapsed_ms;
+  }
+
   format_elapsed() {
-    const total_ms = this.elapsed_ms;
+    const total_ms = this.elapsed();
     const seconds_n = Math.floor(total_ms / 1000);
     const millis_n  = Math.floor(total_ms - seconds_n * 1000);
     const seconds_s = (seconds_n < 10 ? '0' : '') + seconds_n;

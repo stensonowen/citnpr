@@ -1,10 +1,29 @@
 
+
+//import grid from './grid.js';
+import cats from './categories.js';
+import stage from './stage.js';
+
+//const Grid = grid.Grid;
+
+class Model {
+  constructor(app) {
+    this.app = app;
+  }
+}
+
 /*
-import grid from './grid.js';
+class Stage {
+  constructor(app, num, opp1, oppA) {
+    this.app = app;
 
-const Grid = grid.Grid;
+    // stage 1 - Punk Rock vs Non Punk Rock
+    // stage 2 - Liberalism vs Conservatism
+  }
+}
+*/
 
-
+/*
 class Model {
   constructor() {
     this.v = null; // view
