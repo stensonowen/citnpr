@@ -49,6 +49,15 @@ class View {
     );
   }
 
+  fmt_prompt() {
+    const p = this.app.state.board.prompt_text;
+    if (p === null) {
+      return "<null>";
+    }
+    const a = grid.Grid.Vals[this.app.model.p.answer];
+    return '"' + p + '" @' + a;
+  }
+
   render(board, display) {
     const lc = board.row_active * display.side_highlight;
     const G = Grid.Cell;
@@ -83,7 +92,9 @@ class View {
       </div>
 
       <div className="prompt" id="prompt">
-      p r o m t p
+      p r o m t p :
+      <br/>
+      { this.fmt_prompt() }
       </div>
 
       </div>

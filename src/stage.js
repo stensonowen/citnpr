@@ -1,27 +1,30 @@
 
 import cats from './categories.js';
-
-const Dir = {
-  LEFT: 0,
-  RIGHT: 1,
-};
+import grid from './grid.js';
 
 class Prompt {
-  constructor(msg, answer) {
+  constructor(msg, answer) { 
     this.msg = msg;
-    this.answer = answer;
+    this.answer = answer; // Grid.Cell
   }
 }
 
 class Stage {
-  constructor(num, catL, catR, len) {
-    this.labelL = catL.name;
-    this.labelR = catR.name;
-    const prompts = catL.random_prompts(Dir.LEFT, len/2)
-      .concat(catR.random_prompts(Dir.RIGHT, len - len/2));
-    this.prompts = cats.shuffle(prompts);
+  constructor(dirs) {
+    const g = grid.Grid.Cell;
+    const p = {
+      NE : dirs.NE.random_prompts(g.NE),
+      NW : dirs.NW.random_prompts(g.NW),
+      SW : dirs.SW.random_prompts(g.SW),
+      SE : dirs.SE.random_prompts(g.SE),
+    };
+    const all = p.NE.concat(p.NW).concat(p.SW).concat(p.SE);
+    this.prompts = cats.shuffle(all);
+  }
+  pop() { // ret Undefined on empty
+    return this.prompts.pop();
   }
 }
 
 
-export default { Stage, Prompt, Dir };
+export default { Stage, Prompt };

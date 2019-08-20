@@ -1,5 +1,6 @@
 
 import stage from './stage.js';
+import grid from './grid.js';
 
 class Category {
   constructor(name, values) {
@@ -19,9 +20,8 @@ class Pair {
   }
 }
 
-const Politics = new Pair(
-
-  new Category( "Conservative", [
+const Politics = {
+  Conservatism : new Category( "Conservative", [
     "Nuclear family",
     "Defunding public radio",
     "Facts and Logic™",
@@ -32,19 +32,17 @@ const Politics = new Pair(
     "tEcHniCaLLy we Didn'T LoSE thE ViEtNaM wAr",
     "c",
     ]),
-
-  new Category( "Progressive", [
+  Progressivism : new Category( "Progressive", [
     "Public art",
     "LGBTQ+ Community",
     "Reproductive rights",
     "Unions",
     "l",
     ])
-);
+};
 
-const Music = new Pair(
-
-  new Category( "Punk", [
+const Music = {
+  Punk : new Category( "Punk", [
     "Anti-establishment",
     "Drugs",
     "the Anarchy symbol",
@@ -58,8 +56,7 @@ const Music = new Pair(
     "p",
     "p",
     ]),
-
-  new Category( "Not punk", [
+  "Not Punk" : new Category( "Not punk", [
     "Longstanding social hierarchies",
     "William F Buckley's haircut",
     "Conformity",
@@ -73,7 +70,7 @@ const Music = new Pair(
     "np",
     "np",
     ])
-);
+};
 
 
 function shuffle(array) {

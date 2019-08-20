@@ -18,9 +18,10 @@ class App extends React.Component {
     ctrl.register_keystrokes(this);
 
     // constants
-    this.num_stages = 7;
+    this.num_stages = 2;
     this.stopwatch = new sw.Stopwatch(this);
 
+    this.model = new model.Model(this);
 
     this.state = {
       // model
@@ -33,6 +34,7 @@ class App extends React.Component {
           SW : "Pppp",
           SE : "Nnn Pppp",
         },
+        prompt_text : null,
       },
       // view
       display : {
@@ -41,6 +43,7 @@ class App extends React.Component {
       },
     };
 
+    this.model.make_stage(0);
   }
 
   choose(side) { // Grid.Column.LEFT
@@ -48,11 +51,23 @@ class App extends React.Component {
     display.side_highlight = side;
     this.setState({ display });
 
+    const more = this.model.next_prompt();
+    if (more === false) {
+      console.log("DONE");
+      this.set_prompt("DONE");
+    }
+
     if (side === Grid.Column.LEFT) {
       this.stopwatch.start();
     } else if (side === Grid.Column.RIGHT) {
       this.stopwatch.reset();
     }
+  }
+
+  set_prompt(p) {
+    let state = this.state;
+    state.board.prompt_text = p;
+    this.setState(state);
   }
 
   set_time(elapsed) {
@@ -63,7 +78,7 @@ class App extends React.Component {
 
   set_labels(labels) {
     // 'NE' : "text", ...
-    this.setState({ board : { labels } });
+    this.state.board.labels = labels;
   }
 
   render() {
