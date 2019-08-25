@@ -13,7 +13,7 @@ class Model {
     this.app = app;
     this.stage = null;
     this.cells = {};
-    this.p = null;
+    this.promp = null;
   }
 
   make_stage(num_stage) { // -> Stage
@@ -52,7 +52,7 @@ class Model {
         return false; // done
       }
     }
-    this.p = p;
+    this.promp = p;
     this.app.set_prompt(p.msg);
     return true;
   }

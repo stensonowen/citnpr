@@ -54,7 +54,7 @@ class View {
     if (p === null) {
       return "<null>";
     }
-    const a = grid.Grid.Vals[this.app.model.p.answer];
+    const a = grid.Grid.Vals[this.app.model.promp.answer];
     return '"' + p + '" @' + a;
   }
 

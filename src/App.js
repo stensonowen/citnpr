@@ -57,6 +57,8 @@ class App extends React.Component {
       this.set_prompt("DONE");
     }
 
+    //const correct = (side 
+
     if (side === Grid.Column.LEFT) {
       this.stopwatch.start();
     } else if (side === Grid.Column.RIGHT) {
