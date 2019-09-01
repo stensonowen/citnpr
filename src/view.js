@@ -64,7 +64,7 @@ class View {
       { this.fmt_prompt() }
       </div>
     );
-    const reset_cb = this.app.on_banner_dismiss.bind(this.app);
+    const reset_cb = this.app.dismiss_banner.bind(this.app);
     if (b && b.text && b.cont) {
       return (
         <div className="bannerButton">
@@ -127,7 +127,7 @@ class View {
       </div>
 
       <div className="timer">
-      { display.time_elapsed }
+      { display.time_elapsed || "00:00" }
       </div>
 
       { this.renderBannerOrPrompt() }

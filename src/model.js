@@ -52,27 +52,6 @@ class Model {
     return false;
   }
 
-  next_prompt() { // -> prompt
-    const p = this.stage.pop();
-    if (p === undefined) {
-      const new_num = this.app.state.board.stage + 1;
-      if (new_num < this.app.num_stages) {
-        this.make_stage(new_num);
-        this.app.state.board.stage = new_num;
-        return this.next_prompt();
-      } else {
-        return false; // done
-      }
-    }
-    this.promp = p;
-    this.app.set_prompt(p.msg);
-    return true;
-  }
-
-  done() { // -> bool
-  }
-
-
 }
 
 export default { Model };

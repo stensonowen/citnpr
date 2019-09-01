@@ -49,6 +49,10 @@ class App extends React.Component {
   }
 
   choose(side) { // Grid.Column.LEFT
+    if (this.state.display.banner.cont) {
+      // banner covering
+      return;
+    }
     let display = this.state.display;
     display.side_highlight = side;
     this.setState({ display });
@@ -64,39 +68,23 @@ class App extends React.Component {
   get_new_prompt() {
     const success = this.model.next_prompt_in_stage();
     if (success === true) {
-      // done
       this.stopwatch.start();
-      return;
+      return; // done
     }
 
     const next_stage = this.state.board.stage + 1;
     if (next_stage < this.num_stages) {
       this.state.board.stage = next_stage;
       this.model.make_stage(next_stage);
-      const banner = {
+      this.set_banner({
         text : "Next stage - Note categories have moved around",
         cont : "Continue",
-      };
-      this.set_banner(banner);
+      });
     } else {
-      const banner = {
+      this.set_banner({
         text : "All done. TODO math",
         cont : "Restart",
-      };
-      this.set_banner(banner);
-    }
-  }
-
-  get_new_prompt_() {
-    const more = this.model.next_prompt();
-    if (more === false) {
-      const banner = {
-        text : "All done. TODO math",
-        cont : "Restart",
-      };
-      this.set_banner(banner);
-    } else {
-      this.stopwatch.start();
+      });
     }
   }
 
@@ -108,7 +96,7 @@ class App extends React.Component {
 
   set_time(elapsed) {
     let display = this.state.display;
-    display.time_elapsed = elapsed || "none";
+    display.time_elapsed = elapsed || "00:00";
     this.setState({ display });
   }
 
@@ -123,9 +111,13 @@ class App extends React.Component {
     this.setState(state);
   }
 
-  on_banner_dismiss() {
+  dismiss_banner() {
     const banner = this.state.display.banner;
-    if (banner.cont === "Continue") {
+    if (banner.cont === null) {
+      // maybe a keystroke or sthg
+      return;
+    }
+    else if (banner.cont === "Continue") {
       // next stage
       const empty = {
         text : null,
@@ -141,8 +133,8 @@ class App extends React.Component {
   reset() {
     this.model = new model.Model(this);
     this.model.make_stage(0);
-    this.set_banner({ text: null, cont: null });
     this.get_new_prompt();
+    this.set_banner({ text: null, cont: null });
   }
 
   render() {
