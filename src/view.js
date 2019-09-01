@@ -88,7 +88,6 @@ class View {
     if (p === null) {
       return "<null>"; // ?
     }
-    const a = grid.Grid.Vals[this.app.model.promp.answer];
     return p;
   }
 
@@ -126,7 +125,7 @@ class View {
       </div>
 
       <div className="timer">
-      { display.time_elapsed || "_" /* ? */ }
+      { display.time_elapsed || "⏱️" /* ? */ }
       </div>
 
       { this.renderBannerOrPrompt() }

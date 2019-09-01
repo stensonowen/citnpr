@@ -47,7 +47,7 @@ class Model {
 
   next_prompt_in_stage() {
     const p = this.stage.pop();
-    if (p != undefined) {
+    if (p !== undefined) {
       // success
       this.promp = p;
       this.app.set_prompt(p.msg);

@@ -48,8 +48,8 @@ class App extends React.Component {
 
     this.data = {
       // arrays of milliseconds
-      times_pro : new Array(),
-      times_con : new Array(),
+      times_pro : [],
+      times_con : [],
     };
 
   }
@@ -82,9 +82,9 @@ class App extends React.Component {
     const sanitized = Math.max(300, Math.min(time, 3000));
     if (correct) {
       if (supports) {
-        this.data.times_pro.push(time);
+        this.data.times_pro.push(sanitized);
       } else {
-        this.data.times_con.push(time);
+        this.data.times_con.push(sanitized);
       }
     } else {
       // ???

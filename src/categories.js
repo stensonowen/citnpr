@@ -1,6 +1,5 @@
 
 import stage from './stage.js';
-import grid from './grid.js';
 
 class Category {
   constructor(name, values) {
@@ -10,13 +9,6 @@ class Category {
   random_prompts(dir, len) {
     const pool = shuffle(this.values).slice(1, len);
     return pool.map( v => new stage.Prompt(v, dir) );
-  }
-}
-
-class Pair {
-  constructor( catL, catR ) {
-    this.left = catL;
-    this.right = catR;
   }
 }
 
