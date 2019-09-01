@@ -30,14 +30,13 @@ const Politics = {
     "Paul Ryan",
     "William F Buckley",
     "tEcHniCaLLy we Didn'T LoSE thE ViEtNaM wAr",
-    "c",
+    "As a libertarian...",
     ]),
   Progressivism : new Category( "Progressive", [
     "Public art",
     "LGBTQ+ Community",
     "Reproductive rights",
     "Unions",
-    "l",
     ])
 };
 
@@ -53,8 +52,6 @@ const Music = {
     "Nihilism",
     "Colorful hair",
     "zines",
-    "p",
-    "p",
     ]),
   "Not Punk" : new Category( "Not punk", [
     "Longstanding social hierarchies",
@@ -65,10 +62,6 @@ const Music = {
     "Selling Out",
     "Consumerism",
     "Corporatism",
-    "np",
-    "np",
-    "np",
-    "np",
     ])
 };
 
