@@ -10,7 +10,7 @@ import model from './model.js';
 
 const Grid = grid.Grid;
 
-const IntroBanner = "TODO banner start";
+const IntroBanner = "Quickly classify the prompts as Left or Right";
 
 class App extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class App extends React.Component {
     this.state = {
       // model
       board : {
-        row_active : Grid.Row.TOP, // TODO highlight right
+        row_active : Grid.Row.TOP, // TODO highlight correctly
         stage      : 0,
         labels     : {
           NE : "Political Ideology 2",
@@ -93,9 +93,22 @@ class App extends React.Component {
     }
   }
 
+  refresh_row_active() {
+    const answer = this.model.promp.answer;
+    this.state.board.row_active = null;
+    if (answer % Grid.Row.TOP === 0) {
+      console.log("Active is the top");
+      this.state.board.row_active = Grid.Row.TOP;
+    } else if (answer % Grid.Row.BOTTOM === 0) {
+      console.log("Active is the bottom");
+      this.state.board.row_active = Grid.Row.BOTTOM;
+    }
+  }
+
   get_new_prompt() {
     const success = this.model.next_prompt_in_stage();
     if (success === true) {
+      this.refresh_row_active();
       this.stopwatch.start();
       return; // done
     }
@@ -104,6 +117,7 @@ class App extends React.Component {
     if (next_stage < this.num_stages) {
       this.state.board.stage = next_stage;
       this.model.make_stage(next_stage);
+      this.refresh_row_active();
       this.set_banner({
         text : "Next stage - Note categories have moved around",
         cont : "Continue",

@@ -82,15 +82,14 @@ class View {
 
   fmt_prompt() {
     const b = this.app.state.display.banner.text;
-    if (b) {
-      return "Banner: '" + b + "'";
-    }
+    if (b) { return b; }
+
     const p = this.app.state.board.prompt_text;
     if (p === null) {
-      return "<null>";
+      return "<null>"; // ?
     }
     const a = grid.Grid.Vals[this.app.model.promp.answer];
-    return '"' + p + '" @' + a;
+    return p;
   }
 
   render(board, display) {
