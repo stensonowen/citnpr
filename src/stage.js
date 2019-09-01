@@ -10,7 +10,7 @@ class Prompt {
 }
 
 class Stage {
-  constructor(dirs) {
+  constructor(dirs, len) {
     const g = grid.Grid.Cell;
     const p = {
       NE : dirs.NE.random_prompts(g.NE),
@@ -19,7 +19,8 @@ class Stage {
       SE : dirs.SE.random_prompts(g.SE),
     };
     const all = p.NE.concat(p.NW).concat(p.SW).concat(p.SE);
-    this.prompts = cats.shuffle(all);
+    const max_len = len ? len*4 : all.length;
+    this.prompts = cats.shuffle(all).slice(0, max_len);
   }
   pop() { // ret Undefined on empty
     return this.prompts.pop();

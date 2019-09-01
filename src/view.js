@@ -81,11 +81,10 @@ class View {
   }
 
   fmt_prompt() {
-    const b = this.app.state.display.banner;
-    if (b.text) {
-      return "Banner: '" + b.text + "'";
+    const b = this.app.state.display.banner.text;
+    if (b) {
+      return "Banner: '" + b + "'";
     }
-
     const p = this.app.state.board.prompt_text;
     if (p === null) {
       return "<null>";
@@ -100,7 +99,6 @@ class View {
     const L = board.labels;
     const dark = (this.app.state.display.banner.cont != null);
     const darkened = dark ? "darkened" : "";
-    console.log("darkened : " + darkened);
 
     return (
       <div>

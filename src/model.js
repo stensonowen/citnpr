@@ -6,7 +6,7 @@ import stage from './stage.js';
 
 //const Grid = grid.Grid;
 
-const LEN = 5;
+const LEN = 1;
 
 class Model {
   constructor(app) {
@@ -31,13 +31,25 @@ class Model {
     } else {
       console.error("Error - invalid stage - ", num_stage);
     }
-    this.stage = new stage.Stage(this.cells);
+    this.stage = new stage.Stage(this.cells, LEN);
     this.app.set_labels({
       NE : this.cells.NE.name,
       NW : this.cells.NW.name,
       SW : this.cells.SW.name,
       SE : this.cells.SE.name,
     });
+  }
+
+  next_prompt_in_stage() {
+    const p = this.stage.pop();
+    if (p != undefined) {
+      // success
+      this.promp = p;
+      this.app.set_prompt(p.msg);
+      return true;
+    }
+    // stage is done
+    return false;
   }
 
   next_prompt() { // -> prompt
