@@ -126,7 +126,7 @@ class View {
       </div>
 
       <div className="timer">
-      { display.time_elapsed || "00:00" }
+      { display.time_elapsed || "_" /* ? */ }
       </div>
 
       { this.renderBannerOrPrompt() }

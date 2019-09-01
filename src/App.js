@@ -119,7 +119,7 @@ class App extends React.Component {
       this.model.make_stage(next_stage);
       this.refresh_row_active();
       this.set_banner({
-        text : "Next stage - Note categories have moved around",
+        text : "Next stage: the categories have moved around",
         cont : "Continue",
       });
     } else {
@@ -150,7 +150,7 @@ class App extends React.Component {
 
   set_time(elapsed) {
     let display = this.state.display;
-    display.time_elapsed = elapsed || "00:00";
+    display.time_elapsed = elapsed;
     this.setState({ display });
   }
 

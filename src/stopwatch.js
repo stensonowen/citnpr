@@ -11,7 +11,7 @@ class Stopwatch {
     this.elapsed_ms = 0;
     if (this.timer) {
       clearInterval(this.timer);
-      this.app.set_time("00:00");
+      this.app.set_time("");
     }
     this.timer = null; // setInterval
   }
