@@ -14,6 +14,7 @@ class Model {
     this.stage = null;
     this.cells = {};
     this.promp = null;
+    this.null = null; // whether the null hypothesis is pro or con
   }
 
   make_stage(num_stage) { // -> Stage
@@ -25,9 +26,13 @@ class Model {
     if (num_stage === 0) {
       this.cells["SW"] = punk;
       this.cells.SE = notpunk;
+      // Punk and Progressivism on left
+      this.null = false;
     } else if (num_stage === 1) {
       this.cells.SW = notpunk;
       this.cells.SE = punk;
+      // Punk and Conservatism on right
+      this.null = true;
     } else {
       console.error("Error - invalid stage - ", num_stage);
     }

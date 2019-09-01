@@ -25,7 +25,7 @@ class App extends React.Component {
     this.state = {
       // model
       board : {
-        row_active : Grid.Row.TOP,
+        row_active : Grid.Row.TOP, // TODO highlight right
         stage      : 0,
         labels     : {
           NE : "Political Ideology 2",
@@ -46,6 +46,12 @@ class App extends React.Component {
       },
     };
 
+    this.data = {
+      // arrays of milliseconds
+      times_pro : new Array(),
+      times_con : new Array(),
+    };
+
   }
 
   choose(side) { // Grid.Column.LEFT
@@ -57,12 +63,34 @@ class App extends React.Component {
     display.side_highlight = side;
     this.setState({ display });
 
+    const time = this.stopwatch.elapsed();
     this.stopwatch.reset();
 
-    const correct = 0;
-    // TODO check if right
+    const p = this.model.promp;
+    const correct = p.answer % side === 0;
 
     this.get_new_prompt();
+    this.record(correct, !this.model.null, time);
+  }
+
+  /*
+   * correct - boolean, whether they chose right
+   * supports- boolean, iff Conservatism and Punk Rock are aligned
+   * time    - number, ms it took them to choose
+   */
+  record(correct, supports, time) {
+    const sanitized = Math.max(300, Math.min(time, 3000));
+    if (correct) {
+      if (supports) {
+        this.data.times_pro.push(time);
+      } else {
+        this.data.times_con.push(time);
+      }
+    } else {
+      // ???
+      // TODO read the paper
+      console.warn("TODO score mistakes ?");
+    }
   }
 
   get_new_prompt() {
@@ -82,9 +110,21 @@ class App extends React.Component {
       });
     } else {
       this.set_banner({
-        text : "All done. TODO math",
+        text : this.give_it_to_me_straight_doc(),
         cont : "Restart",
       });
+    }
+  }
+
+  give_it_to_me_straight_doc() {
+    const sum = (a,b) => a+b;
+    const pro = this.data.times_pro.reduce(sum, 0);
+    const con = this.data.times_con.reduce(sum, 0);
+    if (pro >= con) {
+      // TODO fraction
+      return "You are a libtard";
+    } else {
+      return "You might not be a libtard";
     }
   }
 
@@ -131,7 +171,10 @@ class App extends React.Component {
   }
 
   reset() {
+    // TODO won't reset this.state
+    this.view = new view.View(this, this.num_stages);
     this.model = new model.Model(this);
+    this.state.board.stage = 0;
     this.model.make_stage(0);
     this.get_new_prompt();
     this.set_banner({ text: null, cont: null });
