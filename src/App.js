@@ -21,7 +21,7 @@ class App extends React.Component {
     this.num_stages = 2;
     this.stopwatch = new sw.Stopwatch(this);
 
-    this.model = new model.Model(this);
+    //this.model = new model.Model(this);
 
     this.state = {
       // model
@@ -29,10 +29,10 @@ class App extends React.Component {
         row_active : Grid.Row.TOP,
         stage      : 0,
         labels     : {
-          NE : "Cccc",
-          NW : "Llll",
-          SW : "Pppp",
-          SE : "Nnn Pppp",
+          NE : "Conservatism",
+          NW : "Progressivism",
+          SW : "Punk Rock",
+          SE : "Not Punk",
         },
         prompt_text : null,
       },
@@ -40,10 +40,14 @@ class App extends React.Component {
       display : {
         side_highlight : null,
         time_elapsed   : "none",
+        banner : {
+          text : "text", // text to display instead of prompt
+          cont : "cont", // button to press
+        },
       },
     };
 
-    this.model.make_stage(0);
+    //this.model.make_stage(0);
   }
 
   choose(side) { // Grid.Column.LEFT
@@ -81,6 +85,26 @@ class App extends React.Component {
   set_labels(labels) {
     // 'NE' : "text", ...
     this.state.board.labels = labels;
+  }
+
+  set_banner(banner) {
+    let state = this.state;
+    state.display.banner = banner;
+    this.setState(state);
+    console.log(banner);
+  }
+
+  on_banner_dismiss() {
+    /*
+    const button = this.state.display.banner.cont;
+    if (button === "Start") {
+      // start
+    }
+    */
+    // For now, the only thing we do is reset
+    this.model = new model.Model(this);
+    this.model.make_stage(0);
+    this.set_banner({ text: null, cont: null });
   }
 
   render() {

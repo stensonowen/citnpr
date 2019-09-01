@@ -27,10 +27,21 @@
 .timer   { text-align: center; color: purple; }
 
 .labelLoud  { background-color: yellow; }
-.labelQuiet { background-color: white;  }
+.labelQuiet { /*background-color: white;*/  }
 
 .buttonLoud  { background-color: green; }
-.buttonQuiet { background-color: white; } 
+.buttonQuiet { /* background-color: white;*/ } 
+
+.darkened {
+  pointer-events:   none;
+  background-color: silver;
+}
+
+.bannerButton {
+  color: red;
+  text-align: center;
+}
+
 
 @keyframes App-logo-spin {
   from {
@@ -41,6 +52,3 @@
   }
 }
 
-html {
-  background-color: darkgray;
-}

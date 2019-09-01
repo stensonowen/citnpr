@@ -8,7 +8,7 @@ const Grid = grid.Grid;
 function Button(props) {
   return (
     <th>
-    <button className="button"
+    <button className="button" 
       onMouseDown={props.onDown} onMouseUp={props.onUp}
     >
     Press '{props.key_}'
@@ -49,7 +49,43 @@ class View {
     );
   }
 
+  renderBanner(banner) { // app.state.display.banner
+    return (
+      <button>
+      { banner.cont }
+      </button>
+    );
+  }
+
+  renderBannerOrPrompt() {
+    const b = this.app.state.display.banner;
+    const p = (
+      <div className="prompt" id="prompt">
+      { this.fmt_prompt() }
+      </div>
+    );
+    const reset_cb = this.app.on_banner_dismiss.bind(this.app);
+    if (b && b.text && b.cont) {
+      return (
+        <div className="bannerButton">
+        { p }
+        <button
+          className="bannerButton"
+          onClick={reset_cb}
+        > { b.cont } </button>
+        </div>
+      );
+    } else {
+      return p;
+    }
+  }
+
   fmt_prompt() {
+    const b = this.app.state.display.banner;
+    if (b.text) {
+      return "Banner: '" + b.text + "'";
+    }
+
     const p = this.app.state.board.prompt_text;
     if (p === null) {
       return "<null>";
@@ -62,6 +98,9 @@ class View {
     const lc = board.row_active * display.side_highlight;
     const G = Grid.Cell;
     const L = board.labels;
+    const dark = (this.app.state.display.banner.cont != null);
+    const darkened = dark ? "darkened" : "";
+    console.log("darkened : " + darkened);
 
     return (
       <div>
@@ -70,6 +109,7 @@ class View {
       Stage { board.stage + 1 } of { this.num_stages }
       </div>
 
+      <div className={darkened}>
       <table className="gameboard">
       <tbody>
       <tr>
@@ -86,16 +126,13 @@ class View {
       </tr>
       </tbody>
       </table>
+      </div>
 
       <div className="timer">
       { display.time_elapsed }
       </div>
 
-      <div className="prompt" id="prompt">
-      p r o m t p :
-      <br/>
-      { this.fmt_prompt() }
-      </div>
+      { this.renderBannerOrPrompt() }
 
       </div>
     );
