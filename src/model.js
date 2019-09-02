@@ -1,10 +1,6 @@
 
-
-//import grid from './grid.js';
 import cats from './categories.js';
 import stage from './stage.js';
-
-//const Grid = grid.Grid;
 
 const LEN = 1;
 
@@ -17,7 +13,7 @@ class Model {
     this.null = null; // whether the null hypothesis is pro or con
   }
 
-  make_stage(num_stage) { // -> Stage
+  make_stage(num_stage) {
     this.cells = {
       NE : cats.Politics.Conservatism,
       NW : cats.Politics.Progressivism,

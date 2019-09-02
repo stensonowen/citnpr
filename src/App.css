@@ -24,13 +24,13 @@
 }
 
 .circled { outline: 1px solid green; }
-.timer   { text-align: center; color: purple; }
+.timer   { text-align: center; }
 
 .labelLoud  { background-color: yellow; }
-.labelQuiet { /*background-color: white;*/  }
+.labelQuiet { }
 
 .buttonLoud  { background-color: green; }
-.buttonQuiet { /* background-color: white;*/ } 
+.buttonQuiet { }
 
 .darkened {
   pointer-events:   none;

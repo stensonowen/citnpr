@@ -15,6 +15,7 @@ const IntroBanner = "Quickly classify the prompts as Left or Right";
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     // constants
     this.num_stages = 2;
     this.stopwatch = new sw.Stopwatch(this);
@@ -46,6 +47,7 @@ class App extends React.Component {
       },
     };
 
+    // results
     this.data = {
       // arrays of milliseconds
       times_pro : [],
@@ -59,6 +61,7 @@ class App extends React.Component {
       // banner covering
       return;
     }
+
     let display = this.state.display;
     display.side_highlight = side;
     this.setState({ display });
@@ -94,15 +97,15 @@ class App extends React.Component {
   }
 
   refresh_row_active() {
+    if (!this.model) { return; }
     const answer = this.model.promp.answer;
     this.state.board.row_active = null;
-    if (answer % Grid.Row.TOP === 0) {
-      console.log("Active is the top");
-      this.state.board.row_active = Grid.Row.TOP;
-    } else if (answer % Grid.Row.BOTTOM === 0) {
-      console.log("Active is the bottom");
-      this.state.board.row_active = Grid.Row.BOTTOM;
-    }
+    [Grid.Row.TOP, Grid.Row.BOTTOM].forEach(row => {
+      if (answer % row === 0) {
+        this.state.board.row_active = row;
+        return;
+      }
+    });
   }
 
   get_new_prompt() {
@@ -135,7 +138,7 @@ class App extends React.Component {
     const pro = this.data.times_pro.reduce(sum, 0);
     const con = this.data.times_con.reduce(sum, 0);
     if (pro >= con) {
-      // TODO fraction
+      // TODO percent results
       return "You are a libtard";
     } else {
       return "You might not be a libtard";

@@ -11,7 +11,7 @@ function Button(props) {
     <button className="button" 
       onMouseDown={props.onDown} onMouseUp={props.onUp}
     >
-    Press '{props.key_}'
+    Press '<code>{props.key_}</code>'
     </button>
     </th>
   );
@@ -28,6 +28,15 @@ function Label(props) {
   );
 }
 
+function Prompt(props) {
+  const style = props.style;
+  return (
+    <div className={style} id={style} >
+    { props.text }
+    </div>
+  );
+}
+
 class View {
   constructor(app, num_stages = 7) {
     this.num_stages = num_stages;
@@ -37,6 +46,7 @@ class View {
   clear_selection() {
     let display = this.app.state.display;
     display.side_highlight = null;
+    this.app.refresh_row_active();
     this.app.setState({ display });
   }
 
@@ -49,46 +59,33 @@ class View {
     );
   }
 
-  renderBanner(banner) { // app.state.display.banner
+  renderBanner() {
+    const b = this.app.state.display.banner;
+    const reset_cb = this.app.dismiss_banner.bind(this.app);
     return (
-      <button>
-      { banner.cont }
+      <div className="bannerButton">
+      <Prompt style="banner" text={ b.text } />
+      <button className="bannerButton" onClick={reset_cb}>
+      { b.cont }
       </button>
+      </div>
+    );
+  }
+
+  renderPrompt() {
+    const pt = this.app.state.board.prompt_text;
+    return (
+      <Prompt style="prompt" text={ pt } />
     );
   }
 
   renderBannerOrPrompt() {
     const b = this.app.state.display.banner;
-    const p = (
-      <div className="prompt" id="prompt">
-      { this.fmt_prompt() }
-      </div>
-    );
-    const reset_cb = this.app.dismiss_banner.bind(this.app);
-    if (b && b.text && b.cont) {
-      return (
-        <div className="bannerButton">
-        { p }
-        <button
-          className="bannerButton"
-          onClick={reset_cb}
-        > { b.cont } </button>
-        </div>
-      );
+    if (b.text && b.cont) {
+      return this.renderBanner();
     } else {
-      return p;
+      return this.renderPrompt();
     }
-  }
-
-  fmt_prompt() {
-    const b = this.app.state.display.banner.text;
-    if (b) { return b; }
-
-    const p = this.app.state.board.prompt_text;
-    if (p === null) {
-      return "<null>"; // ?
-    }
-    return p;
   }
 
   render(board, display) {
