@@ -29,7 +29,7 @@ function Label(props) {
 }
 
 function Prompt(props) {
-  const style = props.style;
+  const style = props.type;
   return (
     <div className={style} id={style} >
     { props.text }
@@ -64,7 +64,7 @@ class View {
     const reset_cb = this.app.dismiss_banner.bind(this.app);
     return (
       <div className="bannerButton">
-      <Prompt style="banner" text={ b.text } />
+      <Prompt type="banner" text={ b.text } />
       <button className="bannerButton" onClick={reset_cb}>
       { b.cont }
       </button>
@@ -75,7 +75,7 @@ class View {
   renderPrompt() {
     const pt = this.app.state.board.prompt_text;
     return (
-      <Prompt style="prompt" text={ pt } />
+      <Prompt type="prompt" text={ pt } />
     );
   }
 

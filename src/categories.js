@@ -23,6 +23,7 @@ const Politics = {
     "William F Buckley",
     "tEcHniCaLLy we Didn'T LoSE thE ViEtNaM wAr",
     "As a libertarian...",
+    "Voting how your priest says to",
     ]),
   Progressivism : new Category( "Progressive", [
     "Public art",
@@ -44,6 +45,7 @@ const Music = {
     "Nihilism",
     "Colorful hair",
     "zines",
+    "Throwing milkshakes at Nazis",
     ]),
   "Not Punk" : new Category( "Not punk", [
     "Longstanding social hierarchies",
