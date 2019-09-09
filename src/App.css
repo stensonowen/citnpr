@@ -34,7 +34,7 @@
 
 .darkened {
   pointer-events:   none;
-  background-color: silver;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .bannerButton {
