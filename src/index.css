@@ -5,11 +5,6 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*
-  background:
-    url("blackflag.svg") top left repeat,
-    url("gop.svg") top right repeat-y;
-    */
   background: url("republicanblackflagparty.svg") top left repeat;
 }
 
