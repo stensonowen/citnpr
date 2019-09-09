@@ -16,13 +16,13 @@ class Model {
   make_stage(num_stage) {
     this.cells = {
       NE : cats.Politics.Conservatism,
-      NW : cats.Politics.Progressivism,
+      NW : cats.Politics.Liberalism,
     };
     const [punk, notpunk] = [cats.Music.Punk, cats.Music["Not Punk"]];
     if (num_stage === 0) {
       this.cells["SW"] = punk;
       this.cells.SE = notpunk;
-      // Punk and Progressivism on left
+      // Punk and Liberalism on left
       this.null = false;
     } else if (num_stage === 1) {
       this.cells.SW = notpunk;

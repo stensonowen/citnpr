@@ -14,22 +14,23 @@ class Category {
 
 const Politics = {
   Conservatism : new Category( "Conservative", [
-    "Nuclear family",
+    "The nuclear family",
     "Defunding public radio",
     "Facts and Logic™",
-    "The Military",
-    "The Police",
+    "Supporting the Military",
+    "Supporting the Police",
     "Paul Ryan",
     "William F Buckley",
-    "tEcHniCaLLy we Didn'T LoSE thE ViEtNaM wAr",
     "As a libertarian...",
     "Voting how your priest says to",
     ]),
-  Progressivism : new Category( "Progressive", [
+  Liberalism: new Category( "Liberal", [
     "Public art",
     "LGBTQ+ Community",
     "Reproductive rights",
     "Unions",
+    "Social welfare",
+    "Environmentalism",
     ])
 };
 
