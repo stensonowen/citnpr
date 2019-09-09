@@ -136,8 +136,9 @@ class App extends React.Component {
     const sum = (a,b) => a+b;
     const pro = this.data.times_pro.reduce(sum, 0);
     const con = this.data.times_con.reduce(sum, 0);
-    if (pro >= con) {
-      // TODO percent results
+    const bad = n => n <= 0 || isNaN(n);
+    if (bad(pro) || bad(con) || pro >= con) {
+      // TODO percent results ?
       return "You are a libtard";
     } else {
       return "You might not be a libtard";

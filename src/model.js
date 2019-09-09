@@ -2,7 +2,7 @@
 import cats from './categories.js';
 import stage from './stage.js';
 
-const LEN = 1;
+const LEN = 6;
 
 class Model {
   constructor(app) {
