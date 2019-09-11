@@ -134,8 +134,9 @@ class App extends React.Component {
 
   give_it_to_me_straight_doc() {
     const sum = (a,b) => a+b;
-    const pro = this.data.times_pro.reduce(sum, 0);
-    const con = this.data.times_con.reduce(sum, 0);
+    const avg = (a) => a.length && a.reduce(sum, 0) / a.length;
+    const pro = avg(this.data.times_pro);
+    const con = avg(this.data.times_con);
     const bad = n => n <= 0 || isNaN(n);
     if (bad(pro) || bad(con) || pro >= con) {
       // TODO percent results ?
